@@ -26,32 +26,40 @@ namespace OxyplotSlowAnnotation
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        PlotModel model = new PlotModel();
-        LineAnnotation annotation;
+        List<LineAnnotation> annotations = new List<LineAnnotation>();
         public MainPage()
         {
             this.InitializeComponent();
 
+            for (int i = 0; i < 10; i++)
+            {
+
                 PlotView Plot = new PlotView();
                 Plot.Height = 200;
-                model = new PlotModel();
-                
+                 var model = new PlotModel();
+
                 model.Series.Add(new FunctionSeries(System.Math.Sin, 0, 10, 0.01, "sin(x)"));
                 Plot.Model = model;
 
-                 annotation = new LineAnnotation()
+                var annotation = new LineAnnotation()
                 {
                     Type = LineAnnotationType.Vertical,
                     ClipByXAxis = false,
                     X = 0,
                 };
                 Plot.Model.Annotations.Add(annotation);
+                annotations.Add(annotation);
                 stack.Children.Add(Plot);
+            }
+
         }
         private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-              annotation.X = e.NewValue;
-                model.InvalidatePlot(false);
+            foreach (var annotation in annotations)
+            {
+                annotation.X = e.NewValue;
+                annotation.PlotModel.InvalidatePlot(false);
+            }
         }
     }
 }

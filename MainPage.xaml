@@ -11,12 +11,11 @@
         <Grid>
             <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="auto" />
             <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-                <Grid Grid.Row="1" x:Name="stack">
+                <StackPanel Orientation="Vertical" Grid.Row="0" x:Name="stack">
                     <!--Here comes the plot from code behind-->
-                </Grid>
-            <Slider Grid.Row="2" Width="400" StepFrequency="0.001" ValueChanged="Slider_ValueChanged" Minimum="2.2" Maximum="7.6"/>
+                </StackPanel>
+            <Slider Grid.Row="1" Width="400" StepFrequency="0.001" ValueChanged="Slider_ValueChanged" Minimum="2.2" Maximum="7.6"/>
         </Grid>
 </Page>
