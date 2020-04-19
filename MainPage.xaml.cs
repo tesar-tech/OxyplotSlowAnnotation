@@ -36,7 +36,7 @@ namespace OxyplotSlowAnnotation
 
                 PlotView Plot = new PlotView();
                 Plot.Height = 200;
-                 var model = new PlotModel();
+                var model = new PlotModel();
 
                 model.Series.Add(new FunctionSeries(System.Math.Sin, 0, 10, 0.01, "sin(x)"));
                 Plot.Model = model;
@@ -58,8 +58,31 @@ namespace OxyplotSlowAnnotation
             foreach (var annotation in annotations)
             {
                 annotation.X = e.NewValue;
+            }
+            StartTimer();
+        }
+
+        private DispatcherTimer _annotationTimer;
+
+        private void StartTimer()
+        {
+            if (_annotationTimer is null)
+            {
+                _annotationTimer = new DispatcherTimer();
+                _annotationTimer.Interval = TimeSpan.FromSeconds(0.01);
+                _annotationTimer.Tick += _timer_Tick;
+
+            }
+            _annotationTimer?.Start();
+        }
+
+        private void _timer_Tick(object sender, object e)
+        {
+            foreach (var annotation in annotations)
+            {
                 annotation.PlotModel.InvalidatePlot(false);
             }
+            _annotationTimer.Stop();
         }
     }
 }
